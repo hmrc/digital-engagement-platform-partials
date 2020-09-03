@@ -24,10 +24,10 @@ import uk.gov.hmrc.digitalengagementplatformpartials.config.AppConfig
 import scala.concurrent.Future
 
 @Singleton()
-class MicroserviceHelloWorldController @Inject()(appConfig: AppConfig, cc: ControllerComponents)
+class WebChatPartials @Inject()(appConfig: AppConfig, cc: ControllerComponents)
     extends BackendController(cc) {
 
-  def hello(): Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok("Hello world"))
+  def load(): Action[AnyContent] = Action.async { implicit request =>
+    Future.successful(NoContent)
   }
 }
