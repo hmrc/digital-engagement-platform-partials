@@ -22,7 +22,28 @@ import uk.gov.hmrc.crypto.Crypted
 import play.api.Configuration
 
 class NuanceEncryptionServiceSpec extends AnyWordSpec with Matchers {
+    "Crypto service" when {
+      "encrypting plain text"  should {
+          "encrypt correctly" in {
+            val crypted: String = service.encryptField(fieldValue)
 
+            crypted should startWith("ENCRYPTED-")
+            crypted.stripPrefix("ENCRYPTED-") should not be fieldValue
+          }
+      }
+      "plain text has been encrypted" should {
+          "decrypt back to original text using the same secret" in {
+            val crypted: String = service.encryptField(fieldValue)
+            val expectedHash: String = service.hashField(fieldValue)
+            val (outputHash, outputRaw) = decryptField(crypted)
+
+            outputHash should be(expectedHash)
+            outputRaw should be(fieldValue)
+          }
+      }
+    }
+
+    val fieldValue = "sessionf5119029a05a4b0d9d5a6b6e08e6c526"
     val configuration = Configuration.from(
         Map(
         "request-body-encryption.hashing-key" -> "yNhI04vHs9<_HWbC`]20u`37=NGLGYY5:0Tg5?y`W<NoJnXWqmjcgZBec@rOxb^G",
@@ -30,9 +51,7 @@ class NuanceEncryptionServiceSpec extends AnyWordSpec with Matchers {
         "request-body-encryption.previousKeys" -> List.empty
         )
     )
-
     val service = new NuanceEncryptionService(configuration)
-
 
     def decryptField(cipherText: String): (String, String) = {
       val stripped: String = cipherText.stripPrefix("ENCRYPTED-")
@@ -41,24 +60,6 @@ class NuanceEncryptionServiceSpec extends AnyWordSpec with Matchers {
       plainText.split("-").toList match {
         case ::(hashed, ::(raw, Nil)) => (hashed, raw)
         case _ => throw new RuntimeException(s"Unable to decrypt cipherText: $cipherText")
-      }
-    }
-
-    "Crypto service" should {
-      "encrypt plain text field which can be decrypted using correct algorithm" in {
-        val fieldValue = "sessionf5119029a05a4b0d9d5a6b6e08e6c526"
-
-        val crypted: String = service.encryptField(fieldValue)
-        val expectedHash: String = service.hashField(fieldValue)
-
-        crypted should startWith("ENCRYPTED-")
-        crypted.stripPrefix("ENCRYPTED-") should not be fieldValue
-
-        val (outputHash, outputRaw) = decryptField(crypted)
-
-        outputHash should be(expectedHash)
-
-        outputRaw should be(fieldValue)
       }
     }
 }
