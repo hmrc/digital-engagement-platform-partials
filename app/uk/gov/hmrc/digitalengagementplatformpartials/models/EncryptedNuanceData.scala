@@ -41,21 +41,11 @@ case class EncryptedNuanceData @Inject()(nuanceSessionId: String, mdtpSessionID:
 
 object EncryptedNuanceData {
 
-  /**
-   * Construct encrypted fields using data from request and header carrier
-   */
   def create(cryptoService: NuanceEncryptionService, hc: HeaderCarrier): EncryptedNuanceData = {
-    EncryptedNuanceData(
-      cryptoService.nuanceSafeHash(sessionId(hc)),
-      cryptoService.encryptField(sessionId(hc)),
-      cryptoService.encryptField(deviceID(hc))
-    )
+    EncryptedNuanceData(cryptoService.nuanceSafeHash(sessionId(hc)),cryptoService.encryptField(sessionId(hc)),cryptoService.encryptField(deviceID(hc)))
   }
 
-  private def sessionId(hc: HeaderCarrier): String =
-    hc.sessionId.fold("")(_.value)
+  private def sessionId(hc: HeaderCarrier): String = hc.sessionId.fold("")(_.value)
 
-  private def deviceID(hc: HeaderCarrier): String =
-    hc.deviceID.fold("")(_.toString)
-
+  private def deviceID(hc: HeaderCarrier): String = hc.deviceID.fold("")(_.toString)
 }
