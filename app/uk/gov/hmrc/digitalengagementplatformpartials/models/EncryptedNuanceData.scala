@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package models
+package uk.gov.hmrc.digitalengagementplatformpartials.models
 
 import com.google.inject.Inject
-import services.NuanceEncryptionService
+import uk.gov.hmrc.digitalengagementplatformpartials.services.NuanceEncryptionService
 import uk.gov.hmrc.http.HeaderCarrier
 
 /**

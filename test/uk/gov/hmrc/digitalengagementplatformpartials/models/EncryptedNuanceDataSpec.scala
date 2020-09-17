@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package models
+package uk.gov.hmrc.digitalengagementplatformpartials.models
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.Configuration
-import services.NuanceEncryptionService
+import uk.gov.hmrc.digitalengagementplatformpartials.services.NuanceEncryptionService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
 
