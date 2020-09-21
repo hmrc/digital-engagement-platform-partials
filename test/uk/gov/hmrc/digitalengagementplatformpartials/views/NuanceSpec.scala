@@ -34,10 +34,10 @@ class NuanceSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
     def messages: Messages = messagesApi.preferred(fakeRequest)
 
     "Nuance response" when {
-        "successfully rendered" should {
-            val loadedView = view()(fakeRequest);
-            val queriableView : Document = Jsoup.parse(loadedView.toString())
+        val loadedView = view()(fakeRequest);
+        val queriableView : Document = Jsoup.parse(loadedView.toString())
 
+        "successfully rendered" should {
             "include div HMRC anchored" in {
                 queriableView.getElementById("HMRC_Anchored_1") should not be null
             }
@@ -65,8 +65,6 @@ class NuanceSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
 
         "not rendered in pre-prod mode" should {
             "include pre-prod url in webchat-tag" in {
-                val loadedView = view()(fakeRequest);
-                val queriableView : Document = Jsoup.parse(loadedView.toString())
                 val webchatTag = queriableView.getElementById("webchat-tag")
 
                 webchatTag.toString() should include ("https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js")
