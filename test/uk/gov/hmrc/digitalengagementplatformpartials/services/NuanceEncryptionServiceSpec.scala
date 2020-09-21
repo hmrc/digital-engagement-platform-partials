@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package services
+package uk.gov.hmrc.digitalengagementplatformpartials.services
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
