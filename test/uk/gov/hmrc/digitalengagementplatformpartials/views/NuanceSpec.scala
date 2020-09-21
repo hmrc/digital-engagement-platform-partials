@@ -65,9 +65,7 @@ class NuanceSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
 
         "not rendered in pre-prod mode" should {
             "include pre-prod url in webchat-tag" in {
-                val webchatTag = queriableView.getElementById("webchat-tag")
-
-                webchatTag.toString() should include ("https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js")
+                queriableView.getElementById("webchat-tag").toString() should include ("https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js")
             }
         }
     }
