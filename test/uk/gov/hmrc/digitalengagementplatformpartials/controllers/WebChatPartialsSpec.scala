@@ -55,9 +55,9 @@ class WebChatPartialsSpec extends AnyWordSpec with Matchers with GuiceOneAppPerS
   private val controller = new WebChatPartials(appConfig, Helpers.stubControllerComponents(),view)
 
   "GET /" should {
-    "return 204" in {
+    "return 200" in {
       val result = controller.load()(fakeRequest)
-      status(result) shouldBe Status.NO_CONTENT
+      status(result) shouldBe Status.OK
     }
   }
 }
