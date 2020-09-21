@@ -32,23 +32,16 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
 
 class WebChatPartialsSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
-
   private val fakeRequest = FakeRequest("GET", "/")
-
   private val env           = Environment.simple()
   private val configuration = Configuration.load(env)
-
   private val serviceConfig = new ServicesConfig(configuration)
-  val svcConfig = Configuration.from(Map(
-          "request-body-encryption.hashing-key" -> "yNhI04vHs9<_HWbC`]20u`37=NGLGYY5:0Tg5?y`W<NoJnXWqmjcgZBec@rOxb^G",
+  val svcConfig = Configuration.from(Map("request-body-encryption.hashing-key" -> "yNhI04vHs9<_HWbC`]20u`37=NGLGYY5:0Tg5?y`W<NoJnXWqmjcgZBec@rOxb^G",
           "request-body-encryption.key" -> "QmFyMTIzNDVCYXIxMjM0NQ==",
           "request-body-encryption.previousKeys" -> List.empty))
-      
   val service = NuanceEncryptionService(svcConfig)
-  val encryptedNuanceData = EncryptedNuanceData.create(
-        service,
-        HeaderCarrier(sessionId = Some(SessionId("x")), deviceID = Some("y")))
-  private val appConfig     = new AppConfig(configuration, serviceConfig,service)
+  val encryptedNuanceData = EncryptedNuanceData.create(service,HeaderCarrier(sessionId = Some(SessionId("x")), deviceID = Some("y")))
+  val appConfig = new AppConfig(configuration, serviceConfig,service)
   val view = new Nuance(appConfig,encryptedNuanceData)
 
 
@@ -58,6 +51,11 @@ class WebChatPartialsSpec extends AnyWordSpec with Matchers with GuiceOneAppPerS
     "return 200" in {
       val result = controller.load()(fakeRequest)
       status(result) shouldBe Status.OK
+      contentAsString(result) should include ("webchat-tag")
+      contentAsString(result) should include ("HMRC_Anchored_1")
+      contentAsString(result) should include ("mdtpdfSessionID")
+      contentAsString(result) should include ("mdtpSessionID")
+      contentAsString(result) should include ("deviceID")
     }
   }
 }
