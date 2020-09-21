@@ -31,6 +31,6 @@ class WebChatPartials @Inject()(appConfig: AppConfig, cc: ControllerComponents, 
   implicit val config: AppConfig = appConfig
 
   def load(): Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(nuanceView()))
+    Future.successful(Ok(nuanceView(appConfig.preProdMode)))
   }
 }

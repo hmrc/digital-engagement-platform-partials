@@ -33,22 +33,44 @@ class NuanceSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
     def messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
     def messages: Messages = messagesApi.preferred(fakeRequest)
 
-    "Nuance response" should {
-        val loadedView = view()(fakeRequest);
-        val queriableView : Document = Jsoup.parse(loadedView.toString())
+    "Nuance response" when {
+        "successfully rendered" should {
+            val loadedView = view()(fakeRequest);
+            val queriableView : Document = Jsoup.parse(loadedView.toString())
 
-        "include div HMRC anchored" in {
-            queriableView.getElementById("HMRC_Anchored_1") should not be null
+            "include div HMRC anchored" in {
+                queriableView.getElementById("HMRC_Anchored_1") should not be null
+            }
+
+            "include webchat-tag element" in {
+                queriableView.getElementById("webchat-tag") should not be null
+            }
+
+            "include all encryption properties" in {
+                loadedView.toString() should include ("mdtpdfSessionID")
+                loadedView.toString() should include ("mdtpSessionID")
+                loadedView.toString() should include ("deviceID")
+            }
         }
 
-        "include webchat-tag element" in {
-            queriableView.getElementById("webchat-tag") should not be null
+        "rendered in pre-prod mode" should {
+            "include pre-prod url in webchat-tag" in {
+                val loadedView = view(true)(fakeRequest);
+                val queriableView : Document = Jsoup.parse(loadedView.toString())
+                val webchatTag = queriableView.getElementById("webchat-tag")
+
+                webchatTag.toString() should include ("https://hmrc-uk-preprod.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js")
+            }
         }
 
-        "include all encryption properties" in {
-            loadedView.toString() should include ("mdtpdfSessionID")
-            loadedView.toString() should include ("mdtpSessionID")
-            loadedView.toString() should include ("deviceID")
+        "not rendered in pre-prod mode" should {
+            "include pre-prod url in webchat-tag" in {
+                val loadedView = view()(fakeRequest);
+                val queriableView : Document = Jsoup.parse(loadedView.toString())
+                val webchatTag = queriableView.getElementById("webchat-tag")
+
+                webchatTag.toString() should include ("https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js")
+            }
         }
     }
 }

@@ -24,7 +24,7 @@
     encryptedNuanceData: EncryptedNuanceData,
 )
 
-@()(implicit request : Request[_])
+@(isPreProdMode : Boolean = false)(implicit request : Request[_])
 
 @nuanceData = @{
     EncryptedNuanceData.create(
@@ -33,7 +33,7 @@
     )
 }
 
-@nuanceUrl = @{if (appConfig.preProdMode) {appConfig.nuancePreProdUrl} else {appConfig.nuanceUrl}}
+@nuanceUrl = @{if (isPreProdMode) {appConfig.nuancePreProdUrl} else {appConfig.nuanceUrl}}
 
 
 <div id="HMRC_Anchored_1"></div>
