@@ -28,6 +28,8 @@ import scala.concurrent.Future
 class WebChatPartials @Inject()(appConfig: AppConfig, cc: ControllerComponents, nuanceView: Nuance)
     extends BackendController(cc) {
 
+  implicit val config: AppConfig = appConfig
+
   def load(): Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok(nuanceView()))
   }
