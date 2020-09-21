@@ -51,11 +51,6 @@ class WebChatPartialsSpec extends AnyWordSpec with Matchers with GuiceOneAppPerS
     "return 200" in {
       val result = controller.load()(fakeRequest)
       status(result) shouldBe Status.OK
-      contentAsString(result) should include ("webchat-tag")
-      contentAsString(result) should include ("HMRC_Anchored_1")
-      contentAsString(result) should include ("mdtpdfSessionID")
-      contentAsString(result) should include ("mdtpSessionID")
-      contentAsString(result) should include ("deviceID")
     }
   }
 }
