@@ -20,17 +20,21 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import uk.gov.hmrc.digitalengagementplatformpartials.config.AppConfig
-import uk.gov.hmrc.digitalengagementplatformpartials.views.html.{Nuance}
+import uk.gov.hmrc.digitalengagementplatformpartials.views.html.{Nuance, NuanceTagElement}
 
 import scala.concurrent.Future
 
 @Singleton()
-class WebChatPartials @Inject()(appConfig: AppConfig, cc: ControllerComponents, nuanceView: Nuance)
-    extends BackendController(cc) {
+class WebChatPartials @Inject()(appConfig: AppConfig, cc: ControllerComponents, nuanceView: Nuance, nuanceTagElementView: NuanceTagElement)
+  extends BackendController(cc) {
 
   implicit val config: AppConfig = appConfig
 
   def load(): Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok(nuanceView(appConfig.preProdMode)))
+  }
+
+  def loadTagElement(id: Option[String] = None): Action[AnyContent] = Action.async { implicit request =>
+    Future.successful(Ok(id.fold(nuanceTagElementView())(nuanceTagElementView(_))))
   }
 }

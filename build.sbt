@@ -1,5 +1,10 @@
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
+import sbt.Keys._
+import sbt._
+import play.sbt.routes.RoutesKeys
+import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
+
 
 val appName = "digital-engagement-platform-partials"
 
@@ -20,6 +25,7 @@ lazy val microservice = Project(appName, file("."))
     )
     // ***************
   )
+  .settings(RoutesKeys.routesImport ++= Seq("uk.gov.hmrc.digitalengagementplatformpartials.models.OptionBinder._"))
   .settings(publishingSettings: _*)
   .configs(IntegrationTest)
   .settings(integrationTestSettings(): _*)
