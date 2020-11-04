@@ -1,3 +1,6 @@
 # microservice specific routes
 
 GET        /webchat             uk.gov.hmrc.digitalengagementplatformpartials.controllers.WebChatPartials.load
+GET        /tag-element          uk.gov.hmrc.digitalengagementplatformpartials.controllers.WebChatPartials.loadTagElement(id: Option[String] = None)
+GET        /tag-element/:id      uk.gov.hmrc.digitalengagementplatformpartials.controllers.WebChatPartials.loadTagElement(id: Option[String])
+

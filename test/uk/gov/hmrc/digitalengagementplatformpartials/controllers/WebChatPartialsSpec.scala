@@ -27,7 +27,7 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.digitalengagementplatformpartials.config.AppConfig
 import uk.gov.hmrc.digitalengagementplatformpartials.services.NuanceEncryptionService
 import uk.gov.hmrc.digitalengagementplatformpartials.models.EncryptedNuanceData
-import uk.gov.hmrc.digitalengagementplatformpartials.views.html.Nuance
+import uk.gov.hmrc.digitalengagementplatformpartials.views.html.{Nuance, NuanceTagElement}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
 
@@ -43,13 +43,26 @@ class WebChatPartialsSpec extends AnyWordSpec with Matchers with GuiceOneAppPerS
   val encryptedNuanceData = EncryptedNuanceData.create(service,HeaderCarrier(sessionId = Some(SessionId("x")), deviceID = Some("y")))
   val appConfig = new AppConfig(configuration, serviceConfig,service)
   val view = new Nuance(appConfig,encryptedNuanceData)
+  val tagView = new NuanceTagElement(appConfig)
 
 
-  private val controller = new WebChatPartials(appConfig, Helpers.stubControllerComponents(),view)
+  private val controller = new WebChatPartials(appConfig, Helpers.stubControllerComponents(),view,tagView)
 
   "GET engagement-platform-partials/webchat" should {
     "return 200" in {
       val result = controller.load()(fakeRequest)
+      status(result) shouldBe Status.OK
+    }
+  }
+
+  "GET engagement-platform-partials/tagElement" should {
+    "return 200 when there is no id" in {
+      val result = controller.loadTagElement()(fakeRequest)
+      status(result) shouldBe Status.OK
+    }
+
+    "return 200 if a custom id has been specified" in {
+      val result = controller.loadTagElement(Some("test"))(fakeRequest)
       status(result) shouldBe Status.OK
     }
   }
