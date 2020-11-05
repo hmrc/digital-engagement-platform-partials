@@ -30,11 +30,11 @@ class WebChatPartials @Inject()(appConfig: AppConfig, cc: ControllerComponents, 
 
   implicit val config: AppConfig = appConfig
 
-  def load(): Action[AnyContent] = Action.async { implicit request =>
+  def load(sessionId: String): Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok(nuanceView(appConfig.preProdMode)))
   }
 
-  def loadTagElement(id: Option[String] = None): Action[AnyContent] = Action.async { implicit request =>
+  def loadTagElement(id: Option[String] = None, sessionId: String): Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok(id.fold(nuanceTagElementView())(nuanceTagElementView(_))))
   }
 }

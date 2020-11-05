@@ -50,19 +50,19 @@ class WebChatPartialsSpec extends AnyWordSpec with Matchers with GuiceOneAppPerS
 
   "GET engagement-platform-partials/webchat" should {
     "return 200" in {
-      val result = controller.load()(fakeRequest)
+      val result = controller.load("test")(fakeRequest)
       status(result) shouldBe Status.OK
     }
   }
 
   "GET engagement-platform-partials/tagElement" should {
     "return 200 when there is no id" in {
-      val result = controller.loadTagElement()(fakeRequest)
+      val result = controller.loadTagElement(None,"test")(fakeRequest)
       status(result) shouldBe Status.OK
     }
 
     "return 200 if a custom id has been specified" in {
-      val result = controller.loadTagElement(Some("test"))(fakeRequest)
+      val result = controller.loadTagElement(Some("test"),"test")(fakeRequest)
       status(result) shouldBe Status.OK
     }
   }

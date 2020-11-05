@@ -28,7 +28,7 @@
 @nuanceData = @{
     EncryptedNuanceData.create(
         appConfig.nuanceEncryptionService,
-        HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, request = Some(request))
+        HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
     )
 }
 
