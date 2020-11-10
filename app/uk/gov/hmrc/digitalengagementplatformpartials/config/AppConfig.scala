@@ -23,12 +23,10 @@ import uk.gov.hmrc.digitalengagementplatformpartials.services.NuanceEncryptionSe
 
 @Singleton
 class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig, val nuanceEncryptionService: NuanceEncryptionService) {
-
-  val authBaseUrl: String = servicesConfig.baseUrl("auth")
-
-  val auditingEnabled: Boolean = config.get[Boolean]("auditing.enabled")
-  val graphiteHost: String     = config.get[String]("microservice.metrics.graphite.host")
-  val preProdMode: Boolean = config.get[Boolean]("pre-prod.mode")
-  val nuanceUrl: String = "https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js"
-  val nuancePreProdUrl: String = "https://hmrc-uk-preprod.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js"
+  private val preProdMode: Boolean = config.get[Boolean]("pre-prod.mode")
+  val nuanceUrl: String = if (preProdMode) {
+    config.get[String]("urls.pre-production.nuance")
+  } else {
+    config.get[String]("urls.production.nuance")
+  }
 }

@@ -21,27 +21,26 @@ import org.jsoup.nodes.Document
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.i18n.{MessagesApi}
 import uk.gov.hmrc.digitalengagementplatformpartials.views.html.NuanceTagElement
 
 class NuanceTagElementSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
-    val view = app.injector.instanceOf[NuanceTagElement]
-    def messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+    private val view = app.injector.instanceOf[NuanceTagElement]
 
     "Nuance tag element" when {
         "successfully rendered" should {
             "include div tag element with default ID" in {
                 val loadedView = view();
-                val queriableView : Document = Jsoup.parse(loadedView.toString())
+                val document : Document = Jsoup.parse(loadedView.toString())
 
-                queriableView.getElementById("HMRC_Fixed_1") should not be null
+                document.getElementById("HMRC_Fixed_1") should not be null
             }
 
             "include div tag element with custom ID" in {
                 val loadedView = view("myTest");
-                val queriableView : Document = Jsoup.parse(loadedView.toString())
+                val document : Document = Jsoup.parse(loadedView.toString())
 
-                queriableView.getElementById("myTest") should not be null
+                document.getElementById("HMRC_Fixed_1") shouldBe null
+                document.getElementById("myTest") should not be null
             }
         }
     }
