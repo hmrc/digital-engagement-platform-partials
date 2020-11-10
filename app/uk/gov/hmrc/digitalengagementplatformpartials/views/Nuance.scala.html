@@ -23,7 +23,7 @@
     encryptedNuanceData: EncryptedNuanceData,
 )
 
-@(isPreProdMode : Boolean = false)(implicit request : Request[_])
+@()(implicit request : Request[_])
 
 @nuanceData = @{
     EncryptedNuanceData.create(
@@ -31,9 +31,6 @@
         HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
     )
 }
-
-@nuanceUrl = @{if (isPreProdMode) {appConfig.nuancePreProdUrl} else {appConfig.nuanceUrl}}
-
 
 <div id="HMRC_Anchored_1"></div>
 
@@ -45,4 +42,4 @@
     }
 </script>
 
-<script id="webchat-tag" type="text/javascript" src=@nuanceUrl></script>
+<script id="webchat-tag" type="text/javascript" src=@{appConfig.nuanceUrl}></script>

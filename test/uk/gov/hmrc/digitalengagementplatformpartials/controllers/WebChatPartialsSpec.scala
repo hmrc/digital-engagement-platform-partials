@@ -33,17 +33,17 @@ import uk.gov.hmrc.http.logging.SessionId
 
 class WebChatPartialsSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
   private val fakeRequest = FakeRequest("GET", "/")
-  private val env           = Environment.simple()
-  private val configuration = Configuration.load(env)
+  private val configuration = Configuration.load(Environment.simple())
   private val serviceConfig = new ServicesConfig(configuration)
-  val svcConfig = Configuration.from(Map("request-body-encryption.hashing-key" -> "yNhI04vHs9<_HWbC`]20u`37=NGLGYY5:0Tg5?y`W<NoJnXWqmjcgZBec@rOxb^G",
-          "request-body-encryption.key" -> "QmFyMTIzNDVCYXIxMjM0NQ==",
-          "request-body-encryption.previousKeys" -> List.empty))
-  val service = NuanceEncryptionService(svcConfig)
-  val encryptedNuanceData = EncryptedNuanceData.create(service,HeaderCarrier(sessionId = Some(SessionId("x")), deviceID = Some("y")))
-  val appConfig = new AppConfig(configuration, serviceConfig,service)
-  val view = new Nuance(appConfig,encryptedNuanceData)
-  val tagView = new NuanceTagElement(appConfig)
+  private val svcConfig = Configuration.from(Map(
+    "request-body-encryption.hashing-key" -> "yNhI04vHs9<_HWbC`]20u`37=NGLGYY5:0Tg5?y`W<NoJnXWqmjcgZBec@rOxb^G",
+    "request-body-encryption.key" -> "QmFyMTIzNDVCYXIxMjM0NQ==",
+    "request-body-encryption.previousKeys" -> List.empty))
+  private val service = NuanceEncryptionService(svcConfig)
+  private val encryptedNuanceData = EncryptedNuanceData.create(service,HeaderCarrier(sessionId = Some(SessionId("x")), deviceID = Some("y")))
+  private val appConfig = new AppConfig(configuration, serviceConfig,service)
+  private val view = new Nuance(appConfig,encryptedNuanceData)
+  private val tagView = new NuanceTagElement(appConfig)
 
 
   private val controller = new WebChatPartials(appConfig, Helpers.stubControllerComponents(),view,tagView)

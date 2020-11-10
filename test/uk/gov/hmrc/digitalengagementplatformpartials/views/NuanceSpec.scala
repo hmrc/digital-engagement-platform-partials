@@ -16,34 +16,30 @@
 
 package uk.gov.hmrc.digitalengagementplatformpartials.views
 
-import play.api.test.FakeRequest
-import uk.gov.hmrc.digitalengagementplatformpartials.views.html.Nuance
-import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.mvc.Cookie
-import play.api.i18n.Messages
-import org.jsoup.nodes.Document
-import play.api.i18n.MessagesApi
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import play.api.mvc.Request
+import play.api.test.FakeRequest
+import uk.gov.hmrc.digitalengagementplatformpartials.views.html.Nuance
 
 class NuanceSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
-    val fakeRequest = FakeRequest("GET", "/").withCookies(Cookie("mdtp", "12345"))
-    val view = app.injector.instanceOf[Nuance]
-    def messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-    def messages: Messages = messagesApi.preferred(fakeRequest)
+    private implicit val fakeRequest: Request[_] = FakeRequest("GET", "/")
+    private val view = app.injector.instanceOf[Nuance]
 
     "Nuance response" when {
         val loadedView = view()(fakeRequest);
-        val queriableView : Document = Jsoup.parse(loadedView.toString())
+        val document : Document = Jsoup.parse(loadedView.toString())
 
         "successfully rendered" should {
             "include div HMRC anchored" in {
-                queriableView.getElementById("HMRC_Anchored_1") should not be null
+                document.getElementById("HMRC_Anchored_1") should not be null
             }
 
             "include webchat-tag element" in {
-                queriableView.getElementById("webchat-tag") should not be null
+                document.getElementById("webchat-tag") should not be null
             }
 
             "include all encryption properties" in {
@@ -53,19 +49,9 @@ class NuanceSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
             }
         }
 
-        "rendered in pre-prod mode" should {
-            "include pre-prod url in webchat-tag" in {
-                val loadedView = view(true)(fakeRequest);
-                val queriableView : Document = Jsoup.parse(loadedView.toString())
-                val webchatTag = queriableView.getElementById("webchat-tag")
-
-                webchatTag.toString() should include ("https://hmrc-uk-preprod.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js")
-            }
-        }
-
         "not rendered in pre-prod mode" should {
             "include pre-prod url in webchat-tag" in {
-                queriableView.getElementById("webchat-tag").toString() should include ("https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js")
+                document.getElementById("webchat-tag").toString should include ("https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js")
             }
         }
     }
