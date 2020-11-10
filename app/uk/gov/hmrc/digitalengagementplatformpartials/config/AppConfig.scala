@@ -23,10 +23,6 @@ import uk.gov.hmrc.digitalengagementplatformpartials.services.NuanceEncryptionSe
 
 @Singleton
 class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig, val nuanceEncryptionService: NuanceEncryptionService) {
-  val auditingEnabled: Boolean = config.get[Boolean]("auditing.enabled")
-
-  val graphiteHost: String = config.get[String]("microservice.metrics.graphite.host")
-
   private val preProdMode: Boolean = config.get[Boolean]("pre-prod.mode")
   val nuanceUrl: String = if (preProdMode) {
     config.get[String]("urls.pre-production.nuance")
