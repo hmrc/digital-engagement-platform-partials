@@ -21,16 +21,15 @@ import org.jsoup.nodes.Document
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.mvc.Request
-import play.api.test.FakeRequest
-import uk.gov.hmrc.digitalengagementplatformpartials.views.html.Nuance
+import uk.gov.hmrc.digitalengagementplatformpartials.models.EncryptedNuanceData
+import uk.gov.hmrc.digitalengagementplatformpartials.views.html.NuanceView
 
-class NuanceSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
-    private implicit val fakeRequest: Request[_] = FakeRequest("GET", "/")
-    private val view = app.injector.instanceOf[Nuance]
+class NuanceViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
+    private val view = app.injector.instanceOf[NuanceView]
+    private val encryptedNuanceData = EncryptedNuanceData("nuanceSessionId", "mtdpSessionId", "deviceId")
 
     "Nuance response" when {
-        val loadedView = view()(fakeRequest);
+        val loadedView = view(encryptedNuanceData);
         val document : Document = Jsoup.parse(loadedView.toString())
 
         "successfully rendered" should {

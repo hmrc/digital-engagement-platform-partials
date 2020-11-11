@@ -38,15 +38,15 @@ case class EncryptedNuanceDataSpec() extends AnyWordSpec with Matchers {
 
 
       "allow retrieval of Nuance JSON fields" in {
-        encryptedNuanceData.mdtpSessionID should startWith("ENCRYPTED-")
-        encryptedNuanceData.deviceID should startWith("ENCRYPTED-")
+        encryptedNuanceData.mdtpSessionId should startWith("ENCRYPTED-")
+        encryptedNuanceData.deviceId should startWith("ENCRYPTED-")
       }
 
       "produce different cipher text on each encryption" in {
         val encryptedNuanceData2 = EncryptedNuanceData.create(service,HeaderCarrier(sessionId = Some(SessionId("x")), deviceID = Some("y")))
 
-        encryptedNuanceData2.deviceID should startWith("ENCRYPTED-")
-        encryptedNuanceData.deviceID should not be encryptedNuanceData2.deviceID
+        encryptedNuanceData2.deviceId should startWith("ENCRYPTED-")
+        encryptedNuanceData.deviceId should not be encryptedNuanceData2.deviceId
       }
 
       "not change if the plain text does not change and not contain non-alpha characters" in {

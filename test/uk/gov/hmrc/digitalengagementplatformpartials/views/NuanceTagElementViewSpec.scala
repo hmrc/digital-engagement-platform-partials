@@ -21,10 +21,10 @@ import org.jsoup.nodes.Document
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import uk.gov.hmrc.digitalengagementplatformpartials.views.html.NuanceTagElement
+import uk.gov.hmrc.digitalengagementplatformpartials.views.html.NuanceTagElementView
 
-class NuanceTagElementSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
-    private val view = app.injector.instanceOf[NuanceTagElement]
+class NuanceTagElementViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
+    private val view = app.injector.instanceOf[NuanceTagElementView]
 
     "Nuance tag element" when {
         "successfully rendered" should {

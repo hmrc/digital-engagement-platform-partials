@@ -20,15 +20,17 @@ import com.google.inject.Inject
 import uk.gov.hmrc.digitalengagementplatformpartials.services.NuanceEncryptionService
 import uk.gov.hmrc.http.HeaderCarrier
 
-case class EncryptedNuanceData @Inject()(nuanceSessionId: String, mdtpSessionID: String, deviceID: String)
+case class EncryptedNuanceData @Inject()(nuanceSessionId: String, mdtpSessionId: String, deviceId: String)
 
 object EncryptedNuanceData {
 
   def create(cryptoService: NuanceEncryptionService, hc: HeaderCarrier): EncryptedNuanceData = {
-    EncryptedNuanceData(cryptoService.nuanceSafeHash(sessionId(hc)),cryptoService.encryptField(sessionId(hc)),cryptoService.encryptField(deviceID(hc)))
+    EncryptedNuanceData(
+      cryptoService.nuanceSafeHash(sessionId(hc)),
+      cryptoService.encryptField(sessionId(hc)),
+      cryptoService.encryptField(deviceId(hc)))
   }
 
   private def sessionId(hc: HeaderCarrier): String = hc.sessionId.fold("")(_.value)
-
-  private def deviceID(hc: HeaderCarrier): String = hc.deviceID.fold("")(_.toString)
+  private def deviceId(hc: HeaderCarrier): String = hc.deviceID.fold("")(_.toString)
 }

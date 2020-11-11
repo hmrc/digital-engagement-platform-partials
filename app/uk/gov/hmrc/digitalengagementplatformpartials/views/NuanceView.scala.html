@@ -16,29 +16,18 @@
 
 @import uk.gov.hmrc.digitalengagementplatformpartials.config.AppConfig
 @import uk.gov.hmrc.digitalengagementplatformpartials.models.EncryptedNuanceData
-@import uk.gov.hmrc.play.HeaderCarrierConverter
 
-@this(
-    appConfig: AppConfig,
-    encryptedNuanceData: EncryptedNuanceData,
-)
+@this(appConfig: AppConfig)
 
-@()(implicit request : Request[_])
-
-@nuanceData = @{
-    EncryptedNuanceData.create(
-        appConfig.nuanceEncryptionService,
-        HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
-    )
-}
+@(nuanceData: EncryptedNuanceData)
 
 <div id="HMRC_Anchored_1"></div>
 
 <script type="text/javascript">
     var nuanceData = {
         "mdtpdfSessionID" : "@{nuanceData.nuanceSessionId}",
-        "mdtpSessionID" : "@{nuanceData.mdtpSessionID}",
-        "deviceID" : "@{nuanceData.deviceID}"
+        "mdtpSessionID" : "@{nuanceData.mdtpSessionId}",
+        "deviceID" : "@{nuanceData.deviceId}"
     }
 </script>
 

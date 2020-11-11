@@ -19,25 +19,33 @@ package uk.gov.hmrc.digitalengagementplatformpartials.controllers
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import uk.gov.hmrc.digitalengagementplatformpartials.config.AppConfig
-import uk.gov.hmrc.digitalengagementplatformpartials.views.html.{Nuance, NuanceTagElement}
+import uk.gov.hmrc.digitalengagementplatformpartials.models.EncryptedNuanceData
+import uk.gov.hmrc.digitalengagementplatformpartials.views.html.{NuanceTagElementView, NuanceView}
+import uk.gov.hmrc.play.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 
 import scala.concurrent.Future
 
 @Singleton()
-class WebChatPartials @Inject()(appConfig: AppConfig,
-                                cc: ControllerComponents,
-                                nuanceView: Nuance,
-                                nuanceTagElementView: NuanceTagElement)
+class WebChatPartialsController @Inject()(appConfig: AppConfig,
+                                          cc: ControllerComponents,
+                                          nuanceView: NuanceView,
+                                          nuanceTagElementView: NuanceTagElementView)
   extends BackendController(cc) {
 
   implicit val config: AppConfig = appConfig
 
-  def load(sessionId: String): Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(nuanceView()))
+  def load(): Action[AnyContent] = Action.async { implicit request =>
+
+    val nuanceData = EncryptedNuanceData.create(
+        appConfig.nuanceEncryptionService,
+        HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
+      )
+
+    Future.successful(Ok(nuanceView(nuanceData)))
   }
 
-  def loadTagElement(id: Option[String] = None, sessionId: String): Action[AnyContent] = Action.async {
+  def loadTagElement(id: Option[String] = None): Action[AnyContent] = Action.async {
     Future.successful(Ok(id.fold(nuanceTagElementView())(nuanceTagElementView(_))))
   }
 }
