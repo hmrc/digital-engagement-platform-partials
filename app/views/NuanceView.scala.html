@@ -14,31 +14,20 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.digitalengagementplatformpartials.config.AppConfig
-@import uk.gov.hmrc.digitalengagementplatformpartials.models.EncryptedNuanceData
-@import uk.gov.hmrc.play.HeaderCarrierConverter
+@import config.AppConfig
+@import models.EncryptedNuanceData
 
-@this(
-    appConfig: AppConfig,
-    encryptedNuanceData: EncryptedNuanceData,
-)
+@this(appConfig: AppConfig)
 
-@()(implicit request : Request[_])
-
-@nuanceData = @{
-    EncryptedNuanceData.create(
-        appConfig.nuanceEncryptionService,
-        HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
-    )
-}
+@(nuanceData: EncryptedNuanceData)
 
 <div id="HMRC_Anchored_1"></div>
 
 <script type="text/javascript">
     var nuanceData = {
         "mdtpdfSessionID" : "@{nuanceData.nuanceSessionId}",
-        "mdtpSessionID" : "@{nuanceData.mdtpSessionID}",
-        "deviceID" : "@{nuanceData.deviceID}"
+        "mdtpSessionID" : "@{nuanceData.mdtpSessionId}",
+        "deviceID" : "@{nuanceData.deviceId}"
     }
 </script>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.digitalengagementplatformpartials.services
+package services
 
 import com.google.inject.Inject
 import play.api.Configuration

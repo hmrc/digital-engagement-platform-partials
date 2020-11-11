@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.digitalengagementplatformpartials.models
+package models
 
 import play.api.mvc._
 

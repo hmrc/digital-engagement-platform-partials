@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.digitalengagementplatformpartials.models
+package models
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.Configuration
-import uk.gov.hmrc.digitalengagementplatformpartials.services.NuanceEncryptionService
+import services.NuanceEncryptionService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
 
@@ -38,15 +38,15 @@ case class EncryptedNuanceDataSpec() extends AnyWordSpec with Matchers {
 
 
       "allow retrieval of Nuance JSON fields" in {
-        encryptedNuanceData.mdtpSessionID should startWith("ENCRYPTED-")
-        encryptedNuanceData.deviceID should startWith("ENCRYPTED-")
+        encryptedNuanceData.mdtpSessionId should startWith("ENCRYPTED-")
+        encryptedNuanceData.deviceId should startWith("ENCRYPTED-")
       }
 
       "produce different cipher text on each encryption" in {
         val encryptedNuanceData2 = EncryptedNuanceData.create(service,HeaderCarrier(sessionId = Some(SessionId("x")), deviceID = Some("y")))
 
-        encryptedNuanceData2.deviceID should startWith("ENCRYPTED-")
-        encryptedNuanceData.deviceID should not be encryptedNuanceData2.deviceID
+        encryptedNuanceData2.deviceId should startWith("ENCRYPTED-")
+        encryptedNuanceData.deviceId should not be encryptedNuanceData2.deviceId
       }
 
       "not change if the plain text does not change and not contain non-alpha characters" in {
