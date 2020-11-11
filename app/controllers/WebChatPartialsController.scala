@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.digitalengagementplatformpartials.controllers
+package controllers
 
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import uk.gov.hmrc.digitalengagementplatformpartials.config.AppConfig
-import uk.gov.hmrc.digitalengagementplatformpartials.models.EncryptedNuanceData
-import uk.gov.hmrc.digitalengagementplatformpartials.views.html.{NuanceTagElementView, NuanceView}
+import config.AppConfig
+import models.EncryptedNuanceData
+import views.html.{NuanceTagElementView, NuanceView}
 import uk.gov.hmrc.play.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 

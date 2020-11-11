@@ -28,7 +28,7 @@ lazy val microservice = Project(appName, file("."))
     )
     // ***************
   )
-  .settings(RoutesKeys.routesImport ++= Seq("uk.gov.hmrc.digitalengagementplatformpartials.models.OptionBinder._"))
+  .settings(RoutesKeys.routesImport ++= Seq("models.OptionBinder._"))
   .settings(publishingSettings: _*)
   .configs(IntegrationTest)
   .settings(integrationTestSettings(): _*)

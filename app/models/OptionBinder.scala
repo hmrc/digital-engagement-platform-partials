@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import uk.gov.hmrc.digitalengagementplatformpartials.config.AppConfig
-@import uk.gov.hmrc.digitalengagementplatformpartials.models.EncryptedNuanceData
+package models
 
-@this(appConfig: AppConfig)
+import play.api.mvc._
 
-@(nuanceData: EncryptedNuanceData)
+object OptionBinder {
 
-<div id="HMRC_Anchored_1"></div>
+  implicit def optionBindable[T: PathBindable]: PathBindable[Option[T]] = new PathBindable[Option[T]] {
+    def bind(key: String, value: String): Either[String, Option[T]] =
+      implicitly[PathBindable[T]].
+        bind(key, value).
+        fold(
+          left => Left(left),
+          right => Right(Some(right))
+        )
 
-<script type="text/javascript">
-    var nuanceData = {
-        "mdtpdfSessionID" : "@{nuanceData.nuanceSessionId}",
-        "mdtpSessionID" : "@{nuanceData.mdtpSessionId}",
-        "deviceID" : "@{nuanceData.deviceId}"
-    }
-</script>
-
-<script id="webchat-tag" type="text/javascript" src=@{appConfig.nuanceUrl}></script>
+    def unbind(key: String, value: Option[T]): String = value map (_.toString) getOrElse ""
+  }
+}

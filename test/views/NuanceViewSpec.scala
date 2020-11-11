@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.digitalengagementplatformpartials.views
+package views
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import uk.gov.hmrc.digitalengagementplatformpartials.models.EncryptedNuanceData
-import uk.gov.hmrc.digitalengagementplatformpartials.views.html.NuanceView
+import models.EncryptedNuanceData
+import views.html.NuanceView
 
 class NuanceViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
     private val view = app.injector.instanceOf[NuanceView]

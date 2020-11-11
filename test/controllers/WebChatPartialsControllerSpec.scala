@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.digitalengagementplatformpartials.controllers
+package controllers
 
+import config.AppConfig
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -23,13 +24,9 @@ import play.api.http.Status
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, Helpers}
 import play.api.{Configuration, Environment}
-import uk.gov.hmrc.digitalengagementplatformpartials.config.AppConfig
-import uk.gov.hmrc.digitalengagementplatformpartials.models.EncryptedNuanceData
-import uk.gov.hmrc.digitalengagementplatformpartials.services.NuanceEncryptionService
-import uk.gov.hmrc.digitalengagementplatformpartials.views.html.{NuanceTagElementView, NuanceView}
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.logging.SessionId
+import services.NuanceEncryptionService
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import views.html.{NuanceTagElementView, NuanceView}
 
 class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
   private val fakeRequest = FakeRequest("GET", "/")
