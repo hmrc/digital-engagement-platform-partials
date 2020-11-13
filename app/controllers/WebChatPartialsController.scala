@@ -17,28 +17,26 @@
 package controllers
 
 import javax.inject.{Inject, Singleton}
-import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import config.AppConfig
 import models.EncryptedNuanceData
-import views.html.{NuanceTagElementView, NuanceView}
+import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import services.NuanceEncryptionService
 import uk.gov.hmrc.play.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
+import views.html.{NuanceTagElementView, NuanceView}
 
 import scala.concurrent.Future
 
 @Singleton()
-class WebChatPartialsController @Inject()(appConfig: AppConfig,
-                                          cc: ControllerComponents,
+class WebChatPartialsController @Inject()(cc: ControllerComponents,
                                           nuanceView: NuanceView,
-                                          nuanceTagElementView: NuanceTagElementView)
+                                          nuanceTagElementView: NuanceTagElementView,
+                                          nuanceEncryptionService: NuanceEncryptionService)
   extends BackendController(cc) {
-
-  implicit val config: AppConfig = appConfig
 
   def load(): Action[AnyContent] = Action.async { implicit request =>
 
     val nuanceData = EncryptedNuanceData.create(
-        appConfig.nuanceEncryptionService,
+        nuanceEncryptionService,
         HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
       )
 
@@ -46,6 +44,11 @@ class WebChatPartialsController @Inject()(appConfig: AppConfig,
   }
 
   def loadTagElement(id: Option[String] = None): Action[AnyContent] = Action.async {
+    request =>
+    EncryptedNuanceData.create(
+      nuanceEncryptionService,
+      HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
+    )
     Future.successful(Ok(id.fold(nuanceTagElementView())(nuanceTagElementView(_))))
   }
 }
