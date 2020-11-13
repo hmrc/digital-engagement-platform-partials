@@ -18,11 +18,9 @@ package config
 
 import javax.inject.{Inject, Singleton}
 import play.api.Configuration
-import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-import services.NuanceEncryptionService
 
 @Singleton
-class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig, val nuanceEncryptionService: NuanceEncryptionService) {
+class AppConfig @Inject()(config: Configuration) {
   private val preProdMode: Boolean = config.get[Boolean]("pre-prod.mode")
   val nuanceUrl: String = if (preProdMode) {
     config.get[String]("urls.pre-production.nuance")

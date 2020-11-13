@@ -16,32 +16,17 @@
 
 package controllers
 
-import config.AppConfig
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.http.Status
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import play.api.test.{FakeRequest, Helpers}
-import play.api.{Configuration, Environment}
-import services.NuanceEncryptionService
-import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-import views.html.{NuanceTagElementView, NuanceView}
 
 class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
   private val fakeRequest = FakeRequest("GET", "/")
-  private val configuration = Configuration.load(Environment.simple())
-  private val serviceConfig = new ServicesConfig(configuration)
-  private val svcConfig = Configuration.from(Map(
-    "request-body-encryption.hashing-key" -> "yNhI04vHs9<_HWbC`]20u`37=NGLGYY5:0Tg5?y`W<NoJnXWqmjcgZBec@rOxb^G",
-    "request-body-encryption.key" -> "QmFyMTIzNDVCYXIxMjM0NQ==",
-    "request-body-encryption.previousKeys" -> List.empty))
-  private val service = NuanceEncryptionService(svcConfig)
-  private val appConfig = new AppConfig(configuration, serviceConfig,service)
-  private val view = new NuanceView(appConfig)
-  private val tagView = new NuanceTagElementView()
 
-  private val controller = new WebChatPartialsController(appConfig, Helpers.stubControllerComponents(),view,tagView)
+  private val controller = app.injector.instanceOf[WebChatPartialsController]
 
   "GET engagement-platform-partials/webchat" should {
     "return 200" in {
