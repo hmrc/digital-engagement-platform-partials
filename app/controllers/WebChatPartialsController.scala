@@ -44,11 +44,6 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
   }
 
   def loadTagElement(id: Option[String] = None): Action[AnyContent] = Action.async {
-    request =>
-    EncryptedNuanceData.create(
-      nuanceEncryptionService,
-      HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
-    )
     Future.successful(Ok(id.fold(nuanceTagElementView())(nuanceTagElementView(_))))
   }
 }
