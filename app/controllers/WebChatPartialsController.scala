@@ -53,12 +53,13 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
     Action.async {
       val decryptedIdList: Seq[String] = ParameterEncoder.decodeStringList(ids)
 
-      val mappedIds = decryptedIdList.groupBy(identity).map {
-        case (id, _) => id -> nuanceTagElementView(id).toString()
-      }
+      val mappedIds = decryptedIdList.foldLeft[Map[String, String]](
+        Map.empty
+      )(
+        (cur, id) => cur + (id -> nuanceTagElementView(id).toString())
+      )
 
-      val result = Json.toJson(mappedIds)
-      Future.successful(Ok(result.toString()))
+      Future.successful(Ok(Json.toJson(mappedIds).toString()))
     }
   }
 }
