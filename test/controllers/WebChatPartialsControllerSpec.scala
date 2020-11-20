@@ -24,11 +24,14 @@ import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.ParameterEncoder
+import views.html.{NuanceTagElementView, NuanceView}
 
 class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
   private val fakeRequest = FakeRequest("GET", "/")
 
   private val controller = app.injector.instanceOf[WebChatPartialsController]
+  private val nuanceTagElementView = app.injector.instanceOf[NuanceTagElementView]
+  private val nuanceRequiredElementsView = app.injector.instanceOf[NuanceView]
 
   "GET engagement-platform-partials/webchat" should {
     "return 200" in {
@@ -55,9 +58,10 @@ class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with Guice
       val result = controller.getPartials(encodedIds)(fakeRequest)
 
       val expectedJson = Json.obj(
-        "tag1" -> "<div id=\"tag1\"></div>",
-        "tag2" -> "<div id=\"tag2\"></div>",
-        "tag3" -> "<div id=\"tag3\"></div>"
+        "tag1" -> nuanceTagElementView("tag1").toString(),
+        "tag2" -> nuanceTagElementView("tag2").toString(),
+        "tag3" -> nuanceTagElementView("tag3").toString(),
+        "REQUIRED" -> nuanceRequiredElementsView.toString
       )
 
       contentAsJson(result) shouldBe expectedJson

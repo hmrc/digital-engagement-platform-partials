@@ -56,8 +56,8 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
       val mappedIds = decryptedIdList.foldLeft[Map[String, String]](
         Map.empty
       )(
-        (cur, id) => cur + (id -> nuanceTagElementView(id).toString())
-      )
+        (cur, id) => cur + (id -> nuanceTagElementView(id).toString)
+      ) + ("REQUIRED" -> nuanceView.toString)
 
       Future.successful(Ok(Json.toJson(mappedIds).toString()))
     }
