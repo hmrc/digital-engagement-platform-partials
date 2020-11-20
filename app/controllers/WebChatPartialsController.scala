@@ -19,7 +19,7 @@ package controllers
 import javax.inject.{Inject, Singleton}
 import models.EncryptedNuanceData
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import play.api.mvc.{Action, AnyContent, ControllerComponents, Request}
 import services.NuanceEncryptionService
 import uk.gov.hmrc.play.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
@@ -36,13 +36,7 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
   extends BackendController(cc) {
 
   def load(): Action[AnyContent] = Action.async { implicit request =>
-
-    val nuanceData = EncryptedNuanceData.create(
-        nuanceEncryptionService,
-        HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
-      )
-
-    Future.successful(Ok(nuanceView(nuanceData)))
+    Future.successful(Ok(nuanceView(encryptedNuanceData)))
   }
 
   def loadTagElement(id: Option[String] = None): Action[AnyContent] = Action.async {
@@ -50,16 +44,22 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
   }
 
   def getPartials(ids: String): Action[AnyContent] = {
-    Action.async {
+    Action.async { implicit request =>
       val decryptedIdList: Seq[String] = ParameterEncoder.decodeStringList(ids)
 
       val mappedIds = decryptedIdList.foldLeft[Map[String, String]](
         Map.empty
       )(
         (cur, id) => cur + (id -> nuanceTagElementView(id).toString)
-      ) + ("REQUIRED" -> nuanceView.toString)
+      ) + ("REQUIRED" -> nuanceView(encryptedNuanceData).toString)
 
       Future.successful(Ok(Json.toJson(mappedIds).toString()))
     }
   }
+
+  private def encryptedNuanceData(implicit request: Request[AnyContent]) =
+    EncryptedNuanceData.create(
+      nuanceEncryptionService,
+      HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
+    )
 }

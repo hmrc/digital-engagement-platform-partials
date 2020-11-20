@@ -20,18 +20,16 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.http.Status
-import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.ParameterEncoder
-import views.html.{NuanceTagElementView, NuanceView}
+import views.html.NuanceTagElementView
 
 class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
   private val fakeRequest = FakeRequest("GET", "/")
 
   private val controller = app.injector.instanceOf[WebChatPartialsController]
   private val nuanceTagElementView = app.injector.instanceOf[NuanceTagElementView]
-  private val nuanceRequiredElementsView = app.injector.instanceOf[NuanceView]
 
   "GET engagement-platform-partials/webchat" should {
     "return 200" in {
@@ -57,15 +55,17 @@ class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with Guice
       val encodedIds = ParameterEncoder.encodeStringList(Seq("tag1", "tag2", "tag3"))
       val result = controller.getPartials(encodedIds)(fakeRequest)
 
-      val expectedJson = Json.obj(
-        "tag1" -> nuanceTagElementView("tag1").toString(),
-        "tag2" -> nuanceTagElementView("tag2").toString(),
-        "tag3" -> nuanceTagElementView("tag3").toString(),
-        "REQUIRED" -> nuanceRequiredElementsView.toString
-      )
-
-      contentAsJson(result) shouldBe expectedJson
       status(result) shouldBe Status.OK
+
+      val resultMap = contentAsJson(result).as[Map[String, String]]
+
+      resultMap("tag1").toString shouldBe nuanceTagElementView("tag1").toString
+      resultMap("tag2").toString shouldBe nuanceTagElementView("tag2").toString
+      resultMap("tag3").toString shouldBe nuanceTagElementView("tag3").toString
+      resultMap("REQUIRED").contains("nuanceData") shouldBe true
+      resultMap("REQUIRED").contains("mdtpdfSessionID") shouldBe true
+      resultMap("REQUIRED").contains("mdtpSessionID") shouldBe true
+      resultMap("REQUIRED").contains("deviceID") shouldBe true
     }
   }
 }
