@@ -20,8 +20,10 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.http.Status
+import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import utils.ParameterEncoder
 
 class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
   private val fakeRequest = FakeRequest("GET", "/")
@@ -43,6 +45,22 @@ class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with Guice
 
     "return 200 if a custom id has been specified" in {
       val result = controller.loadTagElement(Some("test"))(fakeRequest)
+      status(result) shouldBe Status.OK
+    }
+  }
+
+  "GET engagement-platform-partials/partials/..." should {
+    "return the partials for the requested ids" in {
+      val encodedIds = ParameterEncoder.encodeStringList(Seq("tag1", "tag2", "tag3"))
+      val result = controller.getPartials(encodedIds)(fakeRequest)
+
+      val expectedJson = Json.obj(
+        "tag1" -> "<div id=\"tag1\"></div>",
+        "tag2" -> "<div id=\"tag2\"></div>",
+        "tag3" -> "<div id=\"tag3\"></div>"
+      )
+
+      contentAsJson(result) shouldBe expectedJson
       status(result) shouldBe Status.OK
     }
   }

@@ -18,10 +18,12 @@ package controllers
 
 import javax.inject.{Inject, Singleton}
 import models.EncryptedNuanceData
+import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import services.NuanceEncryptionService
 import uk.gov.hmrc.play.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
+import utils.ParameterEncoder
 import views.html.{NuanceTagElementView, NuanceView}
 
 import scala.concurrent.Future
@@ -45,5 +47,18 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
 
   def loadTagElement(id: Option[String] = None): Action[AnyContent] = Action.async {
     Future.successful(Ok(id.fold(nuanceTagElementView())(nuanceTagElementView(_))))
+  }
+
+  def getPartials(ids: String): Action[AnyContent] = {
+    Action.async {
+      val decryptedIdList: Seq[String] = ParameterEncoder.decodeStringList(ids)
+
+      val mappedIds = decryptedIdList.groupBy(identity).map {
+        case (id, _) => id -> nuanceTagElementView(id).toString()
+      }
+
+      val result = Json.toJson(mappedIds)
+      Future.successful(Ok(result.toString()))
+    }
   }
 }

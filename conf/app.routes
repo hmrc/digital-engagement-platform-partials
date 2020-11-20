@@ -4,3 +4,4 @@ GET        /webchat              controllers.WebChatPartialsController.load()
 GET        /tag-element          controllers.WebChatPartialsController.loadTagElement(id: Option[String] = None)
 GET        /tag-element/:id      controllers.WebChatPartialsController.loadTagElement(id: Option[String])
 
+GET        /partials/:ids        controllers.WebChatPartialsController.getPartials(ids: String)
