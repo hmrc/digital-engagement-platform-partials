@@ -33,10 +33,6 @@ class NuanceViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite 
         val document : Document = Jsoup.parse(loadedView.toString())
 
         "successfully rendered" should {
-            "include div HMRC anchored" in {
-                document.getElementById("HMRC_Anchored_1") should not be null
-            }
-
             "include webchat-tag element" in {
                 document.getElementById("webchat-tag") should not be null
             }
