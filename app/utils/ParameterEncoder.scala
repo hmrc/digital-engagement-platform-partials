@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,9 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this()
+package utils
 
-@(id : String = "HMRC_Fixed_1")
-<div id="@id"></div>
+import java.net.{URLDecoder, URLEncoder}
+
+import play.api.libs.json.Json
+
+object ParameterEncoder {
+  def encodeStringList(list: Seq[String]): String = {
+    URLEncoder.encode(Json.toJson(list).toString, "UTF-8")
+  }
+  def decodeStringList(encodedList: String): Seq[String] = {
+    val decoded = URLDecoder.decode(encodedList, "UTF-8")
+    Json.parse(decoded).as[Seq[String]]
+  }
+}

@@ -18,10 +18,12 @@ package controllers
 
 import javax.inject.{Inject, Singleton}
 import models.EncryptedNuanceData
-import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import play.api.libs.json.Json
+import play.api.mvc.{Action, AnyContent, ControllerComponents, Request}
 import services.NuanceEncryptionService
 import uk.gov.hmrc.play.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
+import utils.ParameterEncoder
 import views.html.{NuanceTagElementView, NuanceView}
 
 import scala.concurrent.Future
@@ -33,17 +35,23 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
                                           nuanceEncryptionService: NuanceEncryptionService)
   extends BackendController(cc) {
 
-  def load(): Action[AnyContent] = Action.async { implicit request =>
+  def getPartials(ids: String): Action[AnyContent] = {
+    Action.async { implicit request =>
+      val decryptedIdList: Seq[String] = ParameterEncoder.decodeStringList(ids)
 
-    val nuanceData = EncryptedNuanceData.create(
-        nuanceEncryptionService,
-        HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
-      )
+      val mappedIds = decryptedIdList.foldLeft[Map[String, String]](
+        Map.empty
+      )(
+        (cur, id) => cur + (id -> nuanceTagElementView(id).toString)
+      ) + ("REQUIRED" -> nuanceView(encryptedNuanceData).toString)
 
-    Future.successful(Ok(nuanceView(nuanceData)))
+      Future.successful(Ok(Json.toJson(mappedIds).toString()))
+    }
   }
 
-  def loadTagElement(id: Option[String] = None): Action[AnyContent] = Action.async {
-    Future.successful(Ok(id.fold(nuanceTagElementView())(nuanceTagElementView(_))))
-  }
+  private def encryptedNuanceData(implicit request: Request[AnyContent]) =
+    EncryptedNuanceData.create(
+      nuanceEncryptionService,
+      HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
+    )
 }
