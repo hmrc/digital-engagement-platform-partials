@@ -31,25 +31,6 @@ class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with Guice
   private val controller = app.injector.instanceOf[WebChatPartialsController]
   private val nuanceTagElementView = app.injector.instanceOf[NuanceTagElementView]
 
-  "GET engagement-platform-partials/webchat" should {
-    "return 200" in {
-      val result = controller.load()(fakeRequest)
-      status(result) shouldBe Status.OK
-    }
-  }
-
-  "GET engagement-platform-partials/tagElement" should {
-    "return 200 when there is no id" in {
-      val result = controller.loadTagElement(None)(fakeRequest)
-      status(result) shouldBe Status.OK
-    }
-
-    "return 200 if a custom id has been specified" in {
-      val result = controller.loadTagElement(Some("test"))(fakeRequest)
-      status(result) shouldBe Status.OK
-    }
-  }
-
   "GET engagement-platform-partials/partials/..." should {
     "return the partials for the requested ids" in {
       val encodedIds = ParameterEncoder.encodeStringList(Seq("tag1", "tag2", "tag3"))

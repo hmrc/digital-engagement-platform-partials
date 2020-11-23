@@ -35,14 +35,6 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
                                           nuanceEncryptionService: NuanceEncryptionService)
   extends BackendController(cc) {
 
-  def load(): Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(nuanceView(encryptedNuanceData)))
-  }
-
-  def loadTagElement(id: Option[String] = None): Action[AnyContent] = Action.async {
-    Future.successful(Ok(id.fold(nuanceTagElementView())(nuanceTagElementView(_))))
-  }
-
   def getPartials(ids: String): Action[AnyContent] = {
     Action.async { implicit request =>
       val decryptedIdList: Seq[String] = ParameterEncoder.decodeStringList(ids)
