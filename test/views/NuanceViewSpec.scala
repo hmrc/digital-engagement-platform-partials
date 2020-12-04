@@ -44,9 +44,9 @@ class NuanceViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite 
             }
         }
 
-        "not rendered in pre-prod mode" should {
+        "rendered in pre-prod mode" should {
             "include pre-prod url in webchat-tag" in {
-                document.getElementById("webchat-tag").toString should include ("https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js")
+                document.getElementById("webchat-tag").toString should include ("https://hmrc-uk-preprod.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js")
             }
         }
     }
