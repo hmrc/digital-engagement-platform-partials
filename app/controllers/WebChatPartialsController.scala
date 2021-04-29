@@ -21,7 +21,7 @@ import models.EncryptedNuanceData
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, ControllerComponents, Request}
 import services.NuanceEncryptionService
-import uk.gov.hmrc.play.HeaderCarrierConverter
+import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import utils.ParameterEncoder
 import views.html.{NuanceTagElementView, NuanceView}
@@ -52,6 +52,6 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
   private def encryptedNuanceData(implicit request: Request[AnyContent]) =
     EncryptedNuanceData.create(
       nuanceEncryptionService,
-      HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
+      HeaderCarrierConverter.fromRequestAndSession(request, request.session)
     )
 }

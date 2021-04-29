@@ -21,7 +21,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import play.api.Configuration
 import services.NuanceEncryptionService
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.logging.SessionId
+import uk.gov.hmrc.http.SessionId
 
 case class EncryptedNuanceDataSpec() extends AnyWordSpec with Matchers {
 
