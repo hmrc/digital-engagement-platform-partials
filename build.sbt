@@ -12,7 +12,7 @@ lazy val scoverageSettings = {
     Seq(
         ScoverageKeys.coverageExcludedPackages :="""uk\.gov\.hmrc\.BuildInfo;.*\.Routes;.*\.RoutesPrefix;.*\.ErrorTemplate;.*\.ErrorHandler;.*\.TestOnlyTemplate;.*\.TestOnlyView;.*\.Reverse[^.]*""",
         ScoverageKeys.coverageMinimum := 80,
-        ScoverageKeys.coverageFailOnMinimum := true,
+        ScoverageKeys.coverageFailOnMinimum := false,
         ScoverageKeys.coverageHighlighting := true
     )
 }
