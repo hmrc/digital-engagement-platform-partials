@@ -24,13 +24,14 @@ import services.NuanceEncryptionService
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import utils.ParameterEncoder
-import views.html.{NuanceTagElementView, NuanceView}
+import views.html.{NuanceTagElementView, NuanceView, HMRCView}
 
 import scala.concurrent.Future
 
 @Singleton()
 class WebChatPartialsController @Inject()(cc: ControllerComponents,
                                           nuanceView: NuanceView,
+                                          hmrcView: HMRCView,
                                           nuanceTagElementView: NuanceTagElementView,
                                           nuanceEncryptionService: NuanceEncryptionService)
   extends BackendController(cc) {
@@ -43,7 +44,7 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
         Map.empty
       )(
         (cur, id) => cur + (id -> nuanceTagElementView(id).toString)
-      ) + ("REQUIRED" -> nuanceView(encryptedNuanceData).toString)
+      ) + ("REQUIRED" -> nuanceView(encryptedNuanceData).toString) + ("HMRCCHATSKIN" -> hmrcView().toString)
 
       Future.successful(Ok(Json.toJson(mappedIds).toString()))
     }
