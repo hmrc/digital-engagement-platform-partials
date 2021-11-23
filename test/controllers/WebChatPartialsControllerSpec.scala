@@ -47,6 +47,7 @@ class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with Guice
       resultMap("REQUIRED").contains("mdtpdfSessionID") shouldBe true
       resultMap("REQUIRED").contains("mdtpSessionID") shouldBe true
       resultMap("REQUIRED").contains("deviceID") shouldBe true
+      resultMap("HMRCCHATSKIN").contains("hmrc-webchat-tag") shouldBe true
     }
   }
 }

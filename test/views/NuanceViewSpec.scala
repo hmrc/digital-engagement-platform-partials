@@ -29,7 +29,7 @@ class NuanceViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite 
     private val encryptedNuanceData = EncryptedNuanceData("nuanceSessionId", "mtdpSessionId", "deviceId")
 
     "Nuance response" when {
-        val loadedView = view(encryptedNuanceData);
+        val loadedView = view(encryptedNuanceData)
         val document : Document = Jsoup.parse(loadedView.toString())
 
         "successfully rendered" should {

@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package config
+@import config.AppConfig
 
-import javax.inject.{Inject, Singleton}
-import play.api.Configuration
+@this(appConfig: AppConfig)
 
-@Singleton
-class AppConfig @Inject()(config: Configuration) {
-  private val preProdMode: Boolean = config.get[Boolean]("pre-prod.mode")
-  val nuanceUrl: String = if (preProdMode) {
-    config.get[String]("urls.pre-production.nuance")
-  } else {
-    config.get[String]("urls.production.nuance")
-  }
-
-  val hmrcSkinUrl: String = config.get[String]("urls.hmrc-chatskin")
-}
+<script id="hmrc-webchat-tag" src=@{appConfig.hmrcSkinUrl}></script>
