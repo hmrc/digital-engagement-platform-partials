@@ -35,7 +35,7 @@ class HMRCViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
                 document.getElementById("hmrc-webchat-tag") should not be null
             }
             "include url in hmrc-webchat-tag" in {
-                document.getElementById("hmrc-webchat-tag").toString should include ("http://localhost:9193/ci-api.js")
+                document.getElementById("hmrc-webchat-tag").toString should include ("http://localhost:9193/engagement-platform-skin/assets/javascripts/hmrcChatSkin.js")
             }
         }
     }
