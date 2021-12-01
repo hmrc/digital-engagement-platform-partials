@@ -28,5 +28,6 @@ class AppConfig @Inject()(config: Configuration) {
     config.get[String]("urls.production.nuance")
   }
 
-  val hmrcSkinUrl: String = config.get[String]("urls.hmrc-chatskin")
+  val hmrcSkinJSUrl: String = config.get[String]("urls.hmrc-chatskin-js")
+  val hmrcSkinEmbeddedCSSUrl: String = config.get[String]("urls.hmrc-chatskin-embedded-css")
 }
