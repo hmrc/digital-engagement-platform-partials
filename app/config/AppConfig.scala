@@ -16,18 +16,30 @@
 
 package config
 
+import com.google.inject.ImplementedBy
 import javax.inject.{Inject, Singleton}
-import play.api.Configuration
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
-@Singleton
-class AppConfig @Inject()(config: Configuration) {
-  private val preProdMode: Boolean = config.get[Boolean]("pre-prod.mode")
-  val nuanceUrl: String = if (preProdMode) {
-    config.get[String]("urls.pre-production.nuance")
+
+@ImplementedBy(classOf[AppConfigImpl])
+trait AppConfig {
+  val preProdMode: Boolean
+  val nuanceUrl: String
+  val depSkinBaseUrl: String
+  val hmrcSkinJSUrl: String
+  val hmrcSkinEmbeddedCSSUrl: String
+}
+
+class AppConfigImpl @Inject()(config: ServicesConfig) extends AppConfig {
+  override val preProdMode: Boolean = config.getBoolean("pre-prod.mode")
+  override val depSkinBaseUrl: String = config.baseUrl("digital-engagement-platform-skin")
+
+  override val nuanceUrl: String = if (preProdMode) {
+    config.getString("urls.pre-production.nuance")
   } else {
-    config.get[String]("urls.production.nuance")
+    config.getString("urls.production.nuance")
   }
 
-  val hmrcSkinJSUrl: String = config.get[String]("urls.hmrc-chatskin-js")
-  val hmrcSkinEmbeddedCSSUrl: String = config.get[String]("urls.hmrc-chatskin-embedded-css")
+  override val hmrcSkinJSUrl: String = s"$depSkinBaseUrl/engagement-platform-skin/assets/javascripts/hmrcChatSkinBundle.js"
+  override val hmrcSkinEmbeddedCSSUrl: String = s"$depSkinBaseUrl/engagement-platform-skin/assets/stylesheets/chat-ui-embedded.css"
 }
