@@ -17,7 +17,7 @@
 package config
 
 import com.google.inject.ImplementedBy
-import javax.inject.{Inject, Singleton}
+import javax.inject.Inject
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 
