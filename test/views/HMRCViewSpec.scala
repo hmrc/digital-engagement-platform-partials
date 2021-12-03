@@ -21,13 +21,15 @@ import org.jsoup.nodes.Document
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import play.api.test.FakeRequest
 import views.html.HMRCView
 
 class HMRCViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
+    private val fakeRequest = FakeRequest("GET", "/")
     private val view = app.injector.instanceOf[HMRCView]
 
     "HMRC ChatSkin response" when {
-        val loadedView = view()
+        val loadedView = view()(fakeRequest)
         val document : Document = Jsoup.parse(loadedView.toString())
 
         "successfully rendered" should {
@@ -35,7 +37,7 @@ class HMRCViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
                 document.getElementById("hmrc-webchat-tag") should not be null
             }
             "include url in hmrc-webchat-tag" in {
-                document.getElementById("hmrc-webchat-tag").toString should include ("http://localhost:9193/engagement-platform-skin/assets/hmrcChatSkin.js")
+                document.getElementById("hmrc-webchat-tag").toString should include ("http://localhost:9193/engagement-platform-skin/assets/javascripts/hmrcChatSkinBundle.js")
             }
         }
     }

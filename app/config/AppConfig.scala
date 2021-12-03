@@ -16,17 +16,20 @@
 
 package config
 
-import javax.inject.{Inject, Singleton}
-import play.api.Configuration
+import javax.inject.Inject
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
-@Singleton
-class AppConfig @Inject()(config: Configuration) {
-  private val preProdMode: Boolean = config.get[Boolean]("pre-prod.mode")
+
+class AppConfig @Inject()(config: ServicesConfig) {
+  val preProdMode: Boolean = config.getBoolean("pre-prod.mode")
+  val depSkinBaseUrl: String = config.baseUrl("digital-engagement-platform-skin")
+
   val nuanceUrl: String = if (preProdMode) {
-    config.get[String]("urls.pre-production.nuance")
+    config.getString("urls.pre-production.nuance")
   } else {
-    config.get[String]("urls.production.nuance")
+    config.getString("urls.production.nuance")
   }
 
-  val hmrcSkinUrl: String = config.get[String]("urls.hmrc-chatskin")
+  val hmrcSkinJSUrl: String = s"$depSkinBaseUrl/engagement-platform-skin/assets/javascripts/hmrcChatSkinBundle.js"
+  val hmrcSkinEmbeddedCSSUrl: String = s"$depSkinBaseUrl/engagement-platform-skin/assets/stylesheets/chat-ui-embedded.css"
 }
