@@ -42,6 +42,10 @@ class AppConfigSpec extends PlaySpec with GuiceOneAppPerSuite {
     "return correct url for dep skin service embedded css file" in {
       appConfig.hmrcSkinEmbeddedCSSUrl mustBe "http://skinHost:12345/engagement-platform-skin/assets/stylesheets/chat-ui-embedded.css"
     }
+
+    "return correct url for dep skin service popup css file" in {
+      appConfig.hmrcSkinPopupCSSUrl mustBe "http://skinHost:12345/engagement-platform-skin/assets/stylesheets/chat-ui-popup.css"
+    }
   }
 
 }
