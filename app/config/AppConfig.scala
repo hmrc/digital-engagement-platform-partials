@@ -32,4 +32,6 @@ class AppConfig @Inject()(config: ServicesConfig) {
 
   val hmrcSkinJSUrl: String = s"$depSkinBaseUrl/engagement-platform-skin/assets/javascripts/hmrcChatSkinBundle.js"
   val hmrcSkinEmbeddedCSSUrl: String = s"$depSkinBaseUrl/engagement-platform-skin/assets/stylesheets/chat-ui-embedded.css"
+  val hmrcSkinPopupCSSUrl: String = s"$depSkinBaseUrl/engagement-platform-skin/assets/stylesheets/chat-ui-popup.css"
+
 }
