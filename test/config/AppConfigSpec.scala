@@ -27,8 +27,7 @@ class AppConfigSpec extends PlaySpec with GuiceOneAppPerSuite {
   override def fakeApplication(): Application =
     GuiceApplicationBuilder()
       .configure(
-        "microservice.services.digital-engagement-platform-skin.host" -> "skinHost",
-        "microservice.services.digital-engagement-platform-skin.port" -> 12345
+        "urls.digital-engagement-platform-skin" -> "http://skinHost:12345"
       )
       .build()
 

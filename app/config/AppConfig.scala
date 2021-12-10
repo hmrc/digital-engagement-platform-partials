@@ -22,7 +22,7 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 class AppConfig @Inject()(config: ServicesConfig) {
   val preProdMode: Boolean = config.getBoolean("pre-prod.mode")
-  val depSkinBaseUrl: String = config.baseUrl("digital-engagement-platform-skin")
+  val depSkinBaseUrl: String = config.getString("urls.digital-engagement-platform-skin")
 
   val nuanceUrl: String = if (preProdMode) {
     config.getString("urls.pre-production.nuance")
