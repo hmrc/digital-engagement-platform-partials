@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,11 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.FakeRequest
-import views.html.HMRCView
+import views.html.HMRCPopupView
 
-class HMRCViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
+class HMRCPopupViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
     private val fakeRequest = FakeRequest("GET", "/")
-    private val view = app.injector.instanceOf[HMRCView]
+    private val view = app.injector.instanceOf[HMRCPopupView]
 
     "HMRC ChatSkin response" when {
         val loadedView = view()(fakeRequest)
@@ -36,8 +36,14 @@ class HMRCViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
             "include hmrc-webchat-tag element" in {
                 document.getElementById("hmrc-webchat-tag") should not be null
             }
-            "include url in hmrc-webchat-tag" in {
+            "include javascript url in hmrc-webchat-tag" in {
                 document.getElementById("hmrc-webchat-tag").toString should include ("http://localhost:9193/engagement-platform-skin/assets/javascripts/hmrcChatSkinBundle.js")
+            }
+            "include Popup CSS url" in {
+                document.html().contains("/engagement-platform-skin/assets/stylesheets/chat-ui-popup.css") shouldBe true
+            }
+            "does not include Embedded CSS url" in {
+                document.html().contains("/engagement-platform-skin/assets/stylesheets/chat-ui-embedded.css") shouldBe false
             }
         }
     }

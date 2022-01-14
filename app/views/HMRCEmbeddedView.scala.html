@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package utils
+@import config.AppConfig
+@import views.html.helper.CSPNonce
 
-import java.net.{URLDecoder, URLEncoder}
+@this(appConfig: AppConfig)
 
-import play.api.libs.json.Json
+@()(implicit request: Request[_])
 
-object ParameterEncoder {
-  def encodeStringList(list: Seq[String]): String = {
-    URLEncoder.encode(Json.toJson(list).toString, "UTF-8")
-  }
-  def decodeStringList(encodedList: String): Seq[String] = {
-    val decoded = URLDecoder.decode(encodedList, "UTF-8")
-    Json.parse(decoded).as[Seq[String]]
-  }
-}
+<script @{CSPNonce.attr} language="javascript" id="hmrc-webchat-tag" src=@{appConfig.hmrcSkinJSUrl}></script>
+<link @{CSPNonce.attr} rel="stylesheet" href='@{appConfig.hmrcSkinEmbeddedCSSUrl}' type="text/css">
