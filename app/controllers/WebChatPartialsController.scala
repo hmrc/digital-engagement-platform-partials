@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,15 @@ import services.NuanceEncryptionService
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import utils.ParameterEncoder
-import views.html.{NuanceTagElementView, NuanceView, HMRCView}
+import views.html.{NuanceTagElementView, NuanceView, HMRCPopupView. HMRCEmbeddedView}
 
 import scala.concurrent.Future
 
 @Singleton()
 class WebChatPartialsController @Inject()(cc: ControllerComponents,
                                           nuanceView: NuanceView,
-                                          hmrcView: HMRCView,
+                                          hmrcPopupView: HMRCPopupView,
+                                          hmrcEmbeddedView: HMRCEmbeddedView,
                                           nuanceTagElementView: NuanceTagElementView,
                                           nuanceEncryptionService: NuanceEncryptionService)
   extends BackendController(cc) {
@@ -44,8 +45,9 @@ class WebChatPartialsController @Inject()(cc: ControllerComponents,
         Map.empty
       )(
         (cur, id) => cur + (id -> nuanceTagElementView(id).toString)
-      ) + ("REQUIRED" -> nuanceView(encryptedNuanceData).toString) + ("HMRCCHATSKIN" -> hmrcView().toString)
+      ) + ("REQUIRED" -> nuanceView(encryptedNuanceData).toString) + ("HMRCPOPUPCHATSKIN" -> hmrcPopupView().toString)
 
+      println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX " + mappedIds)
       Future.successful(Ok(Json.toJson(mappedIds).toString()))
     }
   }
