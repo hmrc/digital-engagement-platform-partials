@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,14 +40,15 @@ class WebChatPartialsControllerSpec extends AnyWordSpec with Matchers with Guice
 
       val resultMap = contentAsJson(result).as[Map[String, String]]
 
-      resultMap("tag1").toString shouldBe nuanceTagElementView("tag1").toString
-      resultMap("tag2").toString shouldBe nuanceTagElementView("tag2").toString
-      resultMap("tag3").toString shouldBe nuanceTagElementView("tag3").toString
+      resultMap("tag1") shouldBe nuanceTagElementView("tag1").toString
+      resultMap("tag2") shouldBe nuanceTagElementView("tag2").toString
+      resultMap("tag3") shouldBe nuanceTagElementView("tag3").toString
       resultMap("REQUIRED").contains("nuanceData") shouldBe true
       resultMap("REQUIRED").contains("mdtpdfSessionID") shouldBe true
       resultMap("REQUIRED").contains("mdtpSessionID") shouldBe true
       resultMap("REQUIRED").contains("deviceID") shouldBe true
-      resultMap("HMRCCHATSKIN").contains("hmrc-webchat-tag") shouldBe true
+      resultMap("HMRCPOPUPCHATSKIN").contains("hmrc-webchat-tag") shouldBe true
+      resultMap("HMRCEMBEDDEDCHATSKIN").contains("hmrc-webchat-tag") shouldBe true
     }
   }
 }
