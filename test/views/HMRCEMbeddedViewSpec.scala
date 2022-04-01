@@ -24,8 +24,6 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.FakeRequest
 import views.html.HMRCEmbeddedView
 
-import scala.collection.immutable.Stream.Empty
-
 class HMRCEmbeddedViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
     private val fakeRequest = FakeRequest("GET", "/")
     private val view = app.injector.instanceOf[HMRCEmbeddedView]
@@ -46,6 +44,10 @@ class HMRCEmbeddedViewSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
             }
             "does not include Popup CSS url" in {
                 document.html().contains("/engagement-platform-skin/assets/stylesheets/chat-ui-popup.css") shouldBe false
+            }
+
+            "include dav3 div so Nuance can remove unused html DAv1 elements" in {
+                document.html().contains("dav3") shouldBe true
             }
         }
     }
