@@ -44,7 +44,9 @@ The application runs on port 9109
 To run all the DEP services executed the following command 
 **sm --start DIGITAL_ENGAGEMENT_PLATFORM_ALL -r**
 
-Stop the service and use **sbt run** command to rul locally
+To run digital-engagement-platform-partials locally:
+run **sm --stop digital-engagement-platform-partials**
+run **sbt run**
 
 ### Testing
 To run the unit test use **sbt test**
