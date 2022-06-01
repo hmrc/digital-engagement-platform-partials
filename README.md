@@ -13,7 +13,7 @@ Digital Assistant.
 There is also Reactive and Proactive. This is set up in the Nuance portal but is something you may need to be aware of.
 
 ### Reactive chat skin
-Is where a user is expected to complete an action to trigger a webchat or Digital Assistand. For example click on 
+Is where a user is expected to complete an action to trigger a web chat or digital assistant. For example click on 
 a button or a link.
 
 ### Proactive chat skin
