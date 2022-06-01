@@ -17,7 +17,7 @@ Is where a user is expected to complete an action to trigger a webchat or Digita
 a button or a link.
 
 ### Proactive chatskin
-Is where no action is required for a user to take action to trigger a webchat or Virtual Assistant 
+Is where no action is required for a user to take action to trigger a Webchat or Virtual Assistant.
 
 ### Popup chatskin
 A chatskin that is generally used in other MDTP services. A Popup skin sits in the bottom right of a page and does not 
