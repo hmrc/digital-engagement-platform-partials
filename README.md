@@ -7,7 +7,7 @@ pull in a HMRC chatskin.
 There are three versions of the container elements that can be used. Versions one and two pull in Nuance chat skins,
 and version three pulls in the HMRC chatskin. 
 
-The versions can have two types of skin called Embedded and Popup and each skin can be used for a Webchat or a
+Each version can be one of two types of skin: Embedded or Popup and each skin can be used for a Webchat or a
 Digital Assistant.
 
 There is also Reactive and Proactive. This is set up in the Nuance portal but is something you may need to be aware of.
