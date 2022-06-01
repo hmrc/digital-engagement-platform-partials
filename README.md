@@ -7,7 +7,7 @@ pull in a HMRC chat skin.
 There are three versions of the container elements that can be used. Versions one and two pull in Nuance chat skins,
 and version three pulls in the HMRC chat skin. The method getPartials is used inspect the correct ids and pull in the correct view.
 
-The versions can have two types of skin called Embedded and Popup and each skin can be used for a Webchat or a
+Each version can be one of two types of skin: Embedded or Popup and each skin can be used for a Webchat or a
 Digital Assistant.
 
 There is also Reactive and Proactive. This is set up in the Nuance portal but is something you may need to be aware of.
@@ -17,7 +17,7 @@ Is where a user is expected to complete an action to trigger a webchat or Digita
 a button or a link.
 
 ### Proactive chat skin
-Is where no action is required for a user to take action to trigger a webchat or Virtual Assistant 
+Is where no action is required for a user to take action to trigger a webchat or Virtual Assistant. 
 
 ### Popup chat skin
 A Popup skin sits in the bottom right of a page and does not obscure any content on the page the service uses.
@@ -41,7 +41,9 @@ The application runs on port 9109
 To run all the DEP services executed the following command 
 **sm --start DIGITAL_ENGAGEMENT_PLATFORM_ALL -r**
 
-Stop the service and use **sbt run** command to rul locally
+To run digital-engagement-platform-partials locally:
+run **sm --stop digital-engagement-platform-partials**
+run **sbt run**
 
 ### Testing
 To run the unit test use **sbt test**
