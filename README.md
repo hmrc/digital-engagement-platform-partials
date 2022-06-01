@@ -2,40 +2,37 @@
 # digital-engagement-platform-partials
 
 This service provides container content element, required DataPass attributes and Nuance framework script or can 
-pull in a HMRC chatskin.
+pull in a HMRC chat skin.
 
 There are three versions of the container elements that can be used. Versions one and two pull in Nuance chat skins,
-and version three pulls in the HMRC chatskin. 
+and version three pulls in the HMRC chat skin. The method getPartials is used inspect the correct ids and pull in the correct view.
 
 The versions can have two types of skin called Embedded and Popup and each skin can be used for a Webchat or a
 Digital Assistant.
 
 There is also Reactive and Proactive. This is set up in the Nuance portal but is something you may need to be aware of.
 
-### Reactive chatskin
+### Reactive chat skin
 Is where a user is expected to complete an action to trigger a webchat or Digital Assistand. For example click on 
 a button or a link.
 
-### Proactive chatskin
+### Proactive chat skin
 Is where no action is required for a user to take action to trigger a webchat or Virtual Assistant 
 
-### Popup chatskin
-A chatskin that is generally used in other MDTP services. A Popup skin sits in the bottom right of a page and does not 
-obscure any content on the page the service uses.
+### Popup chat skin
+A Popup skin sits in the bottom right of a page and does not obscure any content on the page the service uses.
 
-### Embedded chatskin
-A chatskin that takes up the whole paged and is only used in digital-engagement-platform-frontend. This service serves links from gov.uk 
-and do not require content on the page.
+### Embedded chat skin
+A chat skin that takes up the whole paged and is used when there is no content on the page.
 
 ### Version 1
-Known as DAv1, Webchat version 1 or Popup chatskin. Provides a Nuance popup chatskin used for both Webchat and Digital Assistant.
+Popup chat skin, provides a Nuance popup chat skin used for both Webchat and Digital Assistant.
 
 ### Version 2
-Known as DAv2, CUI or Embedded chatskin. Provides a full page Embedded chatskin.
+Embedded chat skin provides a full page Embedded chat skin.
 
 ### Version 3
-Known as DAv3, CIAPI or HMRC chatskin. This was developed mainley to covercone Accessability issues with the Nuance chatcking 
-provided in versions one and two. As is stands a fully developed Embedded chatskin has been developed. A Popup chat still has
+HMRC chat skin. As is stands a fully developed Embedded chat skin has been developed. A Popup chat still has
 further work to make this skin usable. 
 
 ### Run the application
