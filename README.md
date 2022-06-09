@@ -1,52 +1,47 @@
 
 # digital-engagement-platform-partials
 
-This service provides container content element, required DataPass attributes and Nuance framework script or can 
-pull in a HMRC chat skin.
+## About
+This service provides html partials required for using Nuance's Digital Assistant and Webchat. Nuance requires two different kinds of elements per page:
 
-There are three versions of the container elements that can be used. Versions one and two pull in Nuance chat skins,
-and version three pulls in the HMRC chat skin. The method getPartials is used inspect the correct ids and pull in the correct view.
+1) A single block that includes the required core Nuance script and data, inserted preferably near the end of the <body> tag. It is critical that this block not be included in the <head> section. The Nuance code will reject any such insertion, and the webchat will not engage.
+2) An empty div container element for each chat link required. The Nuance JavaScript code will add content to these container elements to implement the chat as needed. Most HMRC pages have a single fixed chat link, but multiple links are allowed for different usages.
 
-Each version can be one of two types of skin: Embedded or Popup and each skin can be used for a Webchat or a
-Digital Assistant.
+There are also optional HTML partials required for the use of HMRC's customised chat skin. One for an embedded chat skin and one for a popup chat skin. These 2 HTML partials both return a link to the required javascript file and a link to the required CSS file (both hosted on [digital-engagement-platform-skin](https://github.com/hmrc/digital-engagement-platform-skin) service).
 
-There is also Reactive and Proactive. This is set up in the Nuance portal but is something you may need to be aware of.
+The library provides a separate call for each through a single interface (See [digital-engagement-platform-chat](https://github.com/hmrc/digital-engagement-platfrom-chat) readme for further information).
 
-### Reactive chat skin
-Is where a user is expected to complete an action to trigger a web chat or digital assistant. For example click on 
-a button or a link.
+## Running from source
+Clone the repository using SSH:
 
-### Proactive chat skin
-Is where no action is required for a user to take action to trigger a webchat or Virtual Assistant. 
+`git@github.com:hmrc/digital-engagement-platform-partials.git`
 
-### Popup chat skin
-A Popup skin sits in the bottom right of a page and does not obscure any content on the page the service uses.
+Run the code from source using
 
-### Embedded chat skin
-A chat skin that takes up the whole paged and is used when there is no content on the page.
+`sbt run`
 
-### Version 1
-Popup chat skin, provides a Nuance popup chat skin used for both Webchat and Digital Assistant.
+Dependencies will also need to be started from source or using service manager.
 
-### Version 2
-Embedded chat skin provides a full page Embedded chat skin.
-
-### Version 3
-HMRC chat skin. As is stands a fully developed Embedded chat skin has been developed. A Popup chat still has
-further work to make this skin usable. 
-
-### Run the application
+## Running through service manager
 The application runs on port 9109
 
-To run all the DEP services executed the following command 
-**sm --start DIGITAL_ENGAGEMENT_PLATFORM_ALL -r**
+*You need to be on the VPN*
 
-To run digital-engagement-platform-partials locally:
-run **sm --stop digital-engagement-platform-partials**
-run **sbt run**
+Ensure your service manager config is up to date, and run the following command:
 
-### Testing
-To run the unit test use **sbt test**
+`sm --start DIGITAL_ENGAGEMENT_PLATFORM_ALL -f`
+
+This will start all the required services
+
+## Example of using the service
+
+Start all the required services (see above)
+
+Open your browser and navigate to the following url:
+
+`http://localhost:9956/ask-hmrc/chat/construction-industry-scheme`
+
+View the page source and you'll see required Nuance elements and container.
 
 ### License
 
