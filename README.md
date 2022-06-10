@@ -1,4 +1,3 @@
-
 # digital-engagement-platform-partials
 
 ## About
@@ -29,20 +28,18 @@ The application runs on port 9109
 
 Ensure your service manager config is up to date, and run the following command:
 
-`sm --start DIGITAL_ENGAGEMENT_PLATFORM_ALL -f`
+`sm --start DIGITAL_ENGAGEMENT_PLATFORM_ALL -r`
 
 This will start all the required services
 
 ## Example of using the service
-
 Start all the required services (see above)
 
 Open your browser and navigate to the following url:
 
 `http://localhost:9956/ask-hmrc/chat/construction-industry-scheme`
 
-View the page source and you'll see required Nuance elements and container.
+View the page source, and you'll see required Nuance elements and container.
 
-### License
-
+## License
 This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html").
