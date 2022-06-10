@@ -1,9 +1,9 @@
 # digital-engagement-platform-partials
 
 ## About
-This service provides html partials required for using Nuance's Digital Assistant and Webchat. Nuance requires two different kinds of elements per page:
+This service provides HTML partials required for using Nuance's Digital Assistant and Webchat. Nuance requires two different kinds of HTML partials per page:
 
-1) A single block that includes the required core Nuance script and data, inserted preferably near the end of the <body> tag. It is critical that this block not be included in the <head> section. The Nuance code will reject any such insertion, and the webchat will not engage.
+1) A single block that includes the required core Nuance script and data, inserted preferably near the end of the <body> tag (This can be done by making the appropriate chat library calls from within the <body> tag). It is critical that this block not be included in the <head> section. The Nuance code will reject any such insertion, and the webchat will not engage.
 2) An empty div container element for each chat link required. The Nuance JavaScript code will add content to these container elements to implement the chat as needed. Most HMRC pages have a single fixed chat link, but multiple links are allowed for different usages.
 
 There are also optional HTML partials required for the use of HMRC's customised chat skin. One for an embedded chat skin and one for a popup chat skin. These 2 HTML partials both return a link to the required javascript file and a link to the required CSS file (both hosted on [digital-engagement-platform-skin](https://github.com/hmrc/digital-engagement-platform-skin) service).
