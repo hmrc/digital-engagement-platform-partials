@@ -11,7 +11,7 @@ val appName = "digital-engagement-platform-partials"
 lazy val scoverageSettings = {
     Seq(
         ScoverageKeys.coverageExcludedPackages :="""uk\.gov\.hmrc\.BuildInfo;.*\.Routes;.*\.RoutesPrefix;.*\.ErrorTemplate;.*\.ErrorHandler;.*\.TestOnlyTemplate;.*\.TestOnlyView;.*\.Reverse[^.]*""",
-        ScoverageKeys.coverageMinimum := 80,
+        ScoverageKeys.coverageMinimumStmtTotal := 90,
         ScoverageKeys.coverageFailOnMinimum := false,
         ScoverageKeys.coverageHighlighting := true
     )
