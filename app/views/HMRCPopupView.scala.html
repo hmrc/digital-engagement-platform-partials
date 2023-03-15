@@ -15,11 +15,10 @@
  *@
 
 @import config.AppConfig
-@import views.html.helper.CSPNonce
 
 @this(appConfig: AppConfig)
 
 @()(implicit request: Request[_])
 
-<script @{CSPNonce.attr} language="javascript" id="hmrc-webchat-tag" src=@{appConfig.hmrcSkinJSUrl}></script>
-<link @{CSPNonce.attr} rel="stylesheet" href='@{appConfig.hmrcSkinPopupCSSUrl}' type="text/css">
+<script {{NONCE_ATTR}} language="javascript" id="hmrc-webchat-tag" src=@{appConfig.hmrcSkinJSUrl}></script>
+<link {{NONCE_ATTR}} rel="stylesheet" href='@{appConfig.hmrcSkinPopupCSSUrl}' type="text/css">
